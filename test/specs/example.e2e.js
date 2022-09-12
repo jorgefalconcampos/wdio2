@@ -14,7 +14,7 @@
 
 describe("Advanced testing", () => {
   beforeEach(async () => {
-    await browser.url(`https://the-internet.herokuapp.com/upload`);
+    await loadWebsite();
   });
   it("file upload 1", async () => {
     const filePath = "./my-screenshot.png";
@@ -32,11 +32,15 @@ describe("Advanced testing", () => {
   });
   it("file upload 3", async () => {
     const filePath = "./my-screenshot.png";
-    const remoteFilePath = await browser.uploadFile(filePath);
-    await $("#file-upload").setValue(remoteFilePath);
-    await $("#file-submit").click();
+    // se configura en wdio.conf.js y es equivalente al file upload 1 y 2
+
+    await browser.CustomFileUpload(filePath);
     await browser.pause(2000);
   });
+
+  async function loadWebsite() {
+    await browser.url(`https://the-internet.herokuapp.com/upload`);
+  }
 
   //   it.only("Before and after hooks", () => {
 
