@@ -56,33 +56,48 @@ describe("Advanced testing", () => {
     await browser.url("https://www.google.com/");
     await browser.newWindow("https://webdriver.io/");
     await browser.pause(5000);
-    await browser.switchWindow("https://www.google.com/")
+    await browser.switchWindow("https://www.google.com/");
     await browser.pause(3000);
   });
 
   it("Network throttling", async () => {
     await browser.throttle("Regular3G");
-    await browser.url("https://webdriver.io/")
+    await browser.url("https://webdriver.io/");
     await browser.pause(3000);
 
     await browser.throttle("Regular4G");
-    await browser.url("https://webdriver.io/")
+    await browser.url("https://webdriver.io/");
     await browser.pause(3000);
 
     await browser.throttle("offline");
-    await browser.url("https://webdriver.io/")
-    await browser.pause(3000);   
-  })
+    await browser.url("https://webdriver.io/");
+    await browser.pause(3000);
+  });
 
-  it.only('execute js code', async() => {
+  it("execute js code", async () => {
     const res = await browser.execute(
       (a, b) => {
-        return a+b
-      }, 5, 10
-    )
+        return a + b;
+      },
+      5,
+      10
+    );
     console.log(res);
-    await expect(res).toBe(15)
-    await browser.pause(3000);   
+    await expect(res).toBe(15);
+    await browser.pause(3000);
+  });
+
+  it.only("execute ASYNC js code", async () => {
+    const res = await browser.executeAsync(
+      (a, b, done) => {
+        setTimeout(() => {
+          done(a + b);
+        }, 3000);
+      },
+      8,
+      10
+    );
+    await expect(res).toBe(18)
   });
 
   async function loadWebsite() {
