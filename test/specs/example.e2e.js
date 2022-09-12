@@ -34,8 +34,30 @@ describe("Advanced testing", () => {
     const filePath = "./my-screenshot.png";
     // se configura en wdio.conf.js y es equivalente al file upload 1 y 2
 
-    await browser.CustomFileUpload(filePath);
+    await browser.CustomFileUpload(filePath, "#file-upload", "#file-submit");
     await browser.pause(2000);
+  });
+
+  it("Display Title and URL", async () => {
+    const results = await browser.getTitleAndUrl();
+    console.log(results);
+
+    await browser.waitAndClick("#file-submit");
+    await browser.pause(5000);
+  });
+
+  it("Change browser session", async () => {
+    console.log("session before reload " + browser.sessionId);
+    await browser.reloadSession();
+    console.log("session after reload " + browser.sessionId);
+  });
+
+  it.only("Create and Switch new window", async () => {
+    await browser.url("https://www.google.com/");
+    await browser.newWindow("https://webdriver.io/");
+    await browser.pause(5000);
+    await browser.switchWindow("https://www.google.com/")
+    await browser.pause(3000);
   });
 
   async function loadWebsite() {
